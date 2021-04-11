@@ -1,0 +1,10 @@
+overwrite: true
+schema: "http://localhost:4002/graphql"
+documents: null
+generates:
+  src/__codegen__/account-service.ts:
+    plugins:
+      - "typescript"
+  ./graphql.schema-account-service.json:
+    plugins:
+      - "introspection"

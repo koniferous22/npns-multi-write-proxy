@@ -8,6 +8,7 @@ import { specifiedDirectives } from 'graphql';
 // eslint-disable-next-line import/no-named-as-default
 import federationDirectives from '@apollo/federation/dist/directives';
 import waitOn from 'wait-on';
+import { request, GraphQLClient } from 'graphql-request';
 import { MultiWriteProxyContext } from './context';
 import { Config } from './config';
 import { authChecker } from './authChecker';
@@ -19,16 +20,21 @@ const federationFieldDirectivesFixes: Parameters<
 >[1] = [];
 
 const bootstrap = async () => {
-  const { port, graphqlPath, account, challenge } = Config.getInstance().getConfig();
+  const {
+    port,
+    graphqlPath,
+    account,
+    challenge
+  } = Config.getInstance().getConfig();
   const services = {
     account,
     challenge
   };
-  const serviceList = Object.entries(services).map(
-    ([name, { host, port, graphqlPath }]) => ({
-      name,
-      url: `${host}:${port}${graphqlPath}`
-    })
+  const graphqlClients = Object.fromEntries(
+    Object.entries(services).map(([name, { host, port, graphqlPath }]) => [
+      name as keyof typeof services,
+      new GraphQLClient(`${host}:${port}${graphqlPath}`)
+    ])
   );
   const serviceHealthChecks = Object.entries(services).map(
     ([, { host, port }]) => `${host}:${port}/.well-known/apollo/server-health`
@@ -61,7 +67,8 @@ const bootstrap = async () => {
       const userFromRequest = req.headers.user as string;
       return {
         user: userFromRequest ? JSON.parse(userFromRequest) : null,
-        config: Config.getInstance()
+        config: Config.getInstance(),
+        graphqlClients
       } as MultiWriteProxyContext;
     }
   });

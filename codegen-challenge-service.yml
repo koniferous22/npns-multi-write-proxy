@@ -1,0 +1,10 @@
+overwrite: true
+schema: "http://localhost:4003/graphql"
+documents: null
+generates:
+  src/__codegen__/challenge-service.ts:
+    plugins:
+      - "typescript"
+  ./graphql.schema-challenge-service.json:
+    plugins:
+      - "introspection"

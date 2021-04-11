@@ -1,3 +1,4 @@
+import { GraphQLClient } from 'graphql-request';
 import { Config } from './config';
 
 export type MultiWriteProxyContext = {
@@ -13,4 +14,8 @@ export type MultiWriteProxyContext = {
     };
   } | null;
   config: Config;
+  graphqlClients: Record<
+    Exclude<keyof ReturnType<Config['getConfig']>, 'graphqlPath' | 'port'>,
+    GraphQLClient
+  >;
 };
