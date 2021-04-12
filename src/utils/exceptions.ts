@@ -18,13 +18,16 @@ export class SchemaFixParseError extends Error {
 
 export class ConfigValidationError extends Error {
   name = 'ConfigValidationError';
-  constructor(configPath: string, expectedValue: string, actual: string) {
+  constructor(
+    public configPath: string,
+    public expectedValue: string,
+    public actual: string
+  ) {
     super(
       `Invalid config value for "${configPath}" - expected ${expectedValue}, got "${actual}"`
     );
   }
 }
-
 
 export class ComposedConfigError extends Error {
   name = 'ComposedConfigError';

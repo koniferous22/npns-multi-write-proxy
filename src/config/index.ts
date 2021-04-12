@@ -67,6 +67,22 @@ const configWithParser = {
           overridenValue: null as null | string
         }
       }
+    },
+    hmac: {
+      type: 'node' as const,
+      children: {
+        secret: {
+          type: 'leaf' as const,
+          originalValue: process.env.HMAC_SECRET,
+          overridenValue: null as null | string
+        },
+        algorithm: {
+          type: 'leaf' as const,
+          originalValue: process.env.HMAC_ALGORITHM,
+          transform: getEnum(['sha256']),
+          overridenValue: null as null | string
+        }
+      }
     }
   }
 };
