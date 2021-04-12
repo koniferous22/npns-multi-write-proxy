@@ -1,5 +1,6 @@
-import { GraphQLClient } from 'graphql-request';
 import { Config } from './config';
+import { AccountService } from './services/Account';
+import { ChallengeService } from './services/Challenge';
 
 export type MultiWriteProxyContext = {
   user: {
@@ -14,8 +15,8 @@ export type MultiWriteProxyContext = {
     };
   } | null;
   config: Config;
-  graphqlClients: Record<
-    Exclude<keyof ReturnType<Config['getConfig']>, 'graphqlPath' | 'port'>,
-    GraphQLClient
-  >;
+  services: {
+    account: AccountService;
+    challenge: ChallengeService;
+  }
 };

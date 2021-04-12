@@ -2,9 +2,16 @@ overwrite: true
 schema: "http://localhost:4002/graphql"
 documents: null
 generates:
-  src/__codegen__/account-service.ts:
+  src/__codegen__/types/account-service.ts:
     plugins:
       - "typescript"
+    config:
+      typesPrefix: _
+  src/__codegen__/type-graphql-classes/account-service.ts:
+    plugins:
+      - "typescript-type-graphql"
+    config:
+      numericEnums: true
   ./graphql.schema-account-service.json:
     plugins:
       - "introspection"

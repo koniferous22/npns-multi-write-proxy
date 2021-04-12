@@ -8,12 +8,14 @@ import { specifiedDirectives } from 'graphql';
 // eslint-disable-next-line import/no-named-as-default
 import federationDirectives from '@apollo/federation/dist/directives';
 import waitOn from 'wait-on';
-import { request, GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import { MultiWriteProxyContext } from './context';
 import { Config } from './config';
 import { authChecker } from './authChecker';
 import { fixFieldSchemaDirectives } from './utils/fixFieldDirectives';
 import { ProxyResolver } from './resolvers/Proxy';
+import { AccountService } from './services/Account';
+import { ChallengeService } from './services/Challenge';
 
 const federationFieldDirectivesFixes: Parameters<
   typeof fixFieldSchemaDirectives
@@ -36,6 +38,9 @@ const bootstrap = async () => {
       new GraphQLClient(`${host}:${port}${graphqlPath}`)
     ])
   );
+  const accountService = new AccountService(graphqlClients.account);
+  const challengeService = new ChallengeService(graphqlClients.challenge);
+
   const serviceHealthChecks = Object.entries(services).map(
     ([, { host, port }]) => `${host}:${port}/.well-known/apollo/server-health`
   );
@@ -68,7 +73,10 @@ const bootstrap = async () => {
       return {
         user: userFromRequest ? JSON.parse(userFromRequest) : null,
         config: Config.getInstance(),
-        graphqlClients
+        services: {
+          account: accountService,
+          challenge: challengeService
+        }
       } as MultiWriteProxyContext;
     }
   });

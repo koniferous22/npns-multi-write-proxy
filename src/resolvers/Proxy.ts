@@ -1,9 +1,17 @@
 import { GraphQLString } from 'graphql';
-import { gql } from 'graphql-request';
-import { Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Field,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver
+} from 'type-graphql';
 import { MultiWriteProxyContext } from '../context';
-import { createHmacDigest } from '../utils/createHmacDigest';
-import * as AccountServiceApi from '../__codegen__/account-service';
+import { Await } from '../utils/generics';
+import { CreateWalletInput } from '../utils/inputs';
 
 @ObjectType()
 class ProxyExample {
@@ -13,23 +21,40 @@ class ProxyExample {
 
 @Resolver(() => ProxyExample)
 export class ProxyResolver {
-  @Query(() => GraphQLString)
-  async helloProxy(@Ctx() ctx: MultiWriteProxyContext) {
-    const payload = 'test';
-    const digest = createHmacDigest(payload, ctx);
-    const result = await ctx.graphqlClients.account.request<{
-      helloAccount: AccountServiceApi.Query['helloAccount'];
-    }>(
-      gql`
-        query ping($payload: String!, $digest: String!) {
-          helloAccount(payload: $payload, digest: $digest)
-        }
-      `,
-      {
-        payload,
-        digest
-      }
+  @Authorized()
+  @Mutation(() => GraphQLString)
+  async createWallet(
+    @Arg('input') input: CreateWalletInput,
+    @Ctx() ctx: MultiWriteProxyContext
+  ) {
+    const accountReponse = await ctx.services.account.createWallet(
+      input.tagId,
+      input.walletType,
+      ctx
     );
-    return result.helloAccount;
+    let challengeResponse: Await<
+      ReturnType<typeof ctx['services']['challenge']['createWallet']>
+    >;
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      challengeResponse = await ctx.services.challenge.createWallet(
+        input.tagId,
+        accountReponse.mwpAccount_CreateWallet.createdWallet.id,
+        ctx
+      );
+    } catch (e) {
+      await ctx.services.account.createWalletRollback(
+        accountReponse.mwpAccount_CreateWallet.createdWallet.id,
+        ctx
+      );
+      throw e;
+    }
+    return 'test';
+  }
+
+  // NOTE just to by pass errors, that no query is present here
+  @Query(() => GraphQLString)
+  hello() {
+    return 'world';
   }
 }
