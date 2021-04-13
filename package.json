@@ -8,7 +8,8 @@
     "start:dev": "ts-node-dev src/index.ts",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
-    "codegen": "npm run codegen:account-service && npm run codegen:challenge-service",
+    "lint:codegen": "eslint src/__codegen__/**/*.ts",
+    "codegen": "npm run codegen:account-service && npm run codegen:challenge-service && npm run lint:codegen",
     "codegen:account-service": "graphql-codegen --config codegen-account-service.yml",
     "codegen:challenge-service": "graphql-codegen --config codegen-challenge-service.yml"
   },
