@@ -5,6 +5,9 @@ Purpose of this repository is proxying mutations from different services that co
 
 ## TODO
 * Fully automatize not-working parts in codegen process
+* Make proxy mutations reusable towards SelectionSet (Info arg in the resolvers)
+  * https://www.npmjs.com/package/graphql-tag
+* design strict validation mechanism than jwt
 ### Notes
 * For now not possible to add custom mutations to `apollo-gateway`, otherwise wouldn't have to be a separate entity
 

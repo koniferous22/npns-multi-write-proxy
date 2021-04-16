@@ -1,17 +1,17 @@
 overwrite: true
-schema: "http://localhost:4003/graphql"
+schema: "http://localhost:4000/graphql"
 documents: null
 generates:
-  src/__codegen__/types/challenge-service.ts:
+  src/__codegen__/types.ts:
     plugins:
       - "typescript"
     config:
       typesPrefix: _
-  src/__codegen__/type-graphql-classes/challenge-service.ts:
+  src/__codegen__/type-graphql-classes.ts:
     plugins:
       - "typescript-type-graphql"
     config:
       numericEnums: true
-  ./graphql.schema-challenge-service.json:
+  ./graphql.schema-account-service.json:
     plugins:
       - "introspection"

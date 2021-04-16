@@ -3,6 +3,7 @@ import { AccountService } from './services/Account';
 import { ChallengeService } from './services/Challenge';
 
 export type MultiWriteProxyContext = {
+  authHeader: string;
   user: {
     data: {
       id: string;

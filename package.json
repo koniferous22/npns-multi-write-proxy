@@ -8,10 +8,8 @@
     "start:dev": "ts-node-dev src/index.ts",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
-    "lint:codegen": "eslint src/__codegen__/**/*.ts",
-    "codegen": "npm run codegen:account-service && npm run codegen:challenge-service && npm run lint:codegen",
-    "codegen:account-service": "graphql-codegen --config codegen-account-service.yml",
-    "codegen:challenge-service": "graphql-codegen --config codegen-challenge-service.yml"
+    "lint:codegen": "eslint src/__codegen__/**/*.ts --fix",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "repository": {
     "type": "git",
@@ -31,9 +29,11 @@
   },
   "homepage": "https://github.com/koniferous22/npns-multi-write-proxy#readme",
   "dependencies": {
-    "@apollo/federation": "^0.23.0",
     "apollo-server": "^2.22.2",
+    "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",
     "graphql-tag": "^2.11.0",
@@ -47,6 +47,8 @@
     "@graphql-codegen/typescript": "1.21.1",
     "@graphql-codegen/typescript-operations": "^1.17.15",
     "@graphql-codegen/typescript-type-graphql": "^1.18.3",
+    "@types/express": "^4.17.11",
+    "@types/express-jwt": "^6.0.1",
     "@types/node": "^14.14.37",
     "@types/wait-on": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "^4.21.0",

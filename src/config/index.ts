@@ -22,47 +22,40 @@ const configWithParser = {
       transform: getEndpoint,
       overridenValue: null as null | string
     },
-    account: {
+    jwt: {
       type: 'node' as const,
       children: {
-        host: {
+        secret: {
           type: 'leaf' as const,
-          originalValue: process.env.ACCOUNT_SERVICE_HOST,
-          transform: getUrl,
+          originalValue: process.env.ACCOUNT_SERVICE_JWT_SECRET,
           overridenValue: null as null | string
         },
-        port: {
+        algorithm: {
           type: 'leaf' as const,
-          originalValue: process.env.ACCOUNT_SERVICE_PORT,
-          transform: getNumber,
-          overridenValue: null as null | string
-        },
-        graphqlPath: {
-          type: 'leaf' as const,
-          originalValue: process.env.ACCOUNT_SERVICE_GRAPHQL_PATH,
-          transform: getEndpoint,
+          originalValue: process.env.ACCOUNT_SERVICE_JWT_ALGORITHM,
+          transform: getEnum(['HS256']),
           overridenValue: null as null | string
         }
       }
     },
-    challenge: {
+    gateway: {
       type: 'node' as const,
       children: {
         host: {
           type: 'leaf' as const,
-          originalValue: process.env.CHALLENGE_SERVICE_HOST,
+          originalValue: process.env.GATEWAY_HOST,
           transform: getUrl,
           overridenValue: null as null | string
         },
         port: {
           type: 'leaf' as const,
-          originalValue: process.env.CHALLENGE_SERVICE_PORT,
+          originalValue: process.env.GATEWAY_PORT,
           transform: getNumber,
           overridenValue: null as null | string
         },
         graphqlPath: {
           type: 'leaf' as const,
-          originalValue: process.env.CHALLENGE_SERVICE_GRAPHQL_PATH,
+          originalValue: process.env.GATEWAY_GRAPHQL_PATH,
           transform: getEndpoint,
           overridenValue: null as null | string
         }

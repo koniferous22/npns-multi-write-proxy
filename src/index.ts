@@ -1,36 +1,21 @@
 import 'reflect-metadata';
-import { buildFederatedSchema } from '@apollo/federation';
-import { ApolloServer } from 'apollo-server';
-import gql from 'graphql-tag';
-import { buildSchema, createResolversMap } from 'type-graphql';
-import { printSchemaWithDirectives } from '@graphql-tools/utils';
-import { specifiedDirectives } from 'graphql';
-// eslint-disable-next-line import/no-named-as-default
-import federationDirectives from '@apollo/federation/dist/directives';
+import { ApolloServer } from 'apollo-server-express';
+import { buildSchema } from 'type-graphql';
 import waitOn from 'wait-on';
 import { GraphQLClient } from 'graphql-request';
+import express from 'express';
+import expressJwt from 'express-jwt';
 import { MultiWriteProxyContext } from './context';
 import { Config } from './config';
 import { authChecker } from './authChecker';
-import { fixFieldSchemaDirectives } from './utils/fixFieldDirectives';
 import { ProxyResolver } from './resolvers/Proxy';
 import { AccountService } from './services/Account';
 import { ChallengeService } from './services/Challenge';
 
-const federationFieldDirectivesFixes: Parameters<
-  typeof fixFieldSchemaDirectives
->[1] = [];
-
 const bootstrap = async () => {
-  const {
-    port,
-    graphqlPath,
-    account,
-    challenge
-  } = Config.getInstance().getConfig();
+  const { port, graphqlPath, jwt, gateway } = Config.getInstance().getConfig();
   const services = {
-    account,
-    challenge
+    gateway
   };
   const graphqlClients = Object.fromEntries(
     Object.entries(services).map(([name, { host, port, graphqlPath }]) => [
@@ -38,8 +23,8 @@ const bootstrap = async () => {
       new GraphQLClient(`${host}:${port}${graphqlPath}`)
     ])
   );
-  const accountService = new AccountService(graphqlClients.account);
-  const challengeService = new ChallengeService(graphqlClients.challenge);
+  const accountService = new AccountService(graphqlClients.gateway);
+  const challengeService = new ChallengeService(graphqlClients.gateway);
 
   const serviceHealthChecks = Object.entries(services).map(
     ([, { host, port }]) => `${host}:${port}/.well-known/apollo/server-health`
@@ -49,29 +34,28 @@ const bootstrap = async () => {
     log: true,
     interval: 250
   });
-  const typeGraphQLSchema = await buildSchema({
+  const app = express();
+  app.use(
+    expressJwt({
+      // NOTE validated by runtime config validators
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      secret: jwt.secret!,
+      algorithms: [jwt.algorithm],
+      credentialsRequired: false
+    })
+  );
+  const schema = await buildSchema({
     resolvers: [ProxyResolver],
-    directives: [...specifiedDirectives, ...federationDirectives],
     authChecker
-  });
-
-  const schema = buildFederatedSchema({
-    typeDefs: gql(
-      fixFieldSchemaDirectives(
-        printSchemaWithDirectives(typeGraphQLSchema),
-        federationFieldDirectivesFixes
-      )
-    ),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolvers: createResolversMap(typeGraphQLSchema) as any
   });
 
   const server = new ApolloServer({
     schema,
     context: ({ req }) => {
-      const userFromRequest = req.headers.user as string;
+      const userFromJwtMiddleware = req.user;
       return {
-        user: userFromRequest ? JSON.parse(userFromRequest) : null,
+        user: userFromJwtMiddleware ?? null,
+        authHeader: req.headers.authorization,
         config: Config.getInstance(),
         services: {
           account: accountService,
@@ -81,8 +65,11 @@ const bootstrap = async () => {
     }
   });
   server.setGraphQLPath(graphqlPath);
-  server.listen({ port }).then(({ url }) => {
-    console.log(`🚀 Multi-write proxy ready at ${url}`);
+  server.applyMiddleware({ app });
+  app.listen({ port }, () => {
+    console.log(
+      `🚀 Multi-write proxy ready at http://localhost:${port}${server.graphqlPath}`
+    );
   });
 };
 

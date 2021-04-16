@@ -10,8 +10,13 @@ import {
   Resolver
 } from 'type-graphql';
 import { MultiWriteProxyContext } from '../context';
+import { combineServiceResponsePayloads } from '../utils/combineServiceResponsePayload';
 import { Await } from '../utils/generics';
 import { CreateWalletInput } from '../utils/inputs';
+import {
+  MwpAccount_CreateWalletPayload,
+  MwpChallenge_CreateWalletPayload
+} from '../__codegen__/type-graphql-classes';
 
 @ObjectType()
 class ProxyExample {
@@ -19,10 +24,18 @@ class ProxyExample {
   hello!: string;
 }
 
+const CreateWalletPayload = combineServiceResponsePayloads(
+  {
+    account: MwpAccount_CreateWalletPayload,
+    challenge: MwpChallenge_CreateWalletPayload
+  },
+  'CreateWallet'
+);
+
 @Resolver(() => ProxyExample)
 export class ProxyResolver {
   @Authorized()
-  @Mutation(() => GraphQLString)
+  @Mutation(() => CreateWalletPayload)
   async createWallet(
     @Arg('input') input: CreateWalletInput,
     @Ctx() ctx: MultiWriteProxyContext
@@ -49,7 +62,6 @@ export class ProxyResolver {
       );
       throw e;
     }
-    return 'test';
   }
 
   // NOTE just to by pass errors, that no query is present here

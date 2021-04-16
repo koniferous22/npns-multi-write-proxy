@@ -3,6 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 import { MultiWriteProxyContext } from '../context';
 import { createHmacDigest } from '../utils/createHmacDigest';
 
+// NOTE legacy class because before wanted to proxy two different services instead of gateway itself
 export abstract class AbstractService {
   constructor(protected client: GraphQLClient) {}
 
@@ -12,9 +13,8 @@ export abstract class AbstractService {
     ctx: MultiWriteProxyContext
   ) {
     const digest = createHmacDigest(payload, ctx.config.getConfig());
-    console.log(digest);
     const result = await this.client
-      .setHeader('user', JSON.stringify(ctx.user))
+      .setHeader('Authorization', ctx.authHeader)
       .request<ResultT>(query, {
         payload,
         digest

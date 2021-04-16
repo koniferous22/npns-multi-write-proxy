@@ -9,6 +9,172 @@
     "subscriptionType": null,
     "types": [
       {
+        "kind": "INTERFACE",
+        "name": "AbstractPost",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "content",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INTERFACE",
+                    "name": "Content",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "poster",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isActive",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Challenge",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ChallengeEdit",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Reply",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ReplyEdit",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Submission",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "SubmissionEdit",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "SCALAR",
+        "name": "ID",
+        "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "AddLatexContentPayload",
         "description": null,
@@ -106,16 +272,6 @@
             "deprecationReason": null
           }
         ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "ID",
-        "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
-        "fields": null,
-        "inputFields": null,
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
@@ -992,12 +1148,42 @@
           },
           {
             "kind": "OBJECT",
+            "name": "MwpChallenge_BoostChallengePayload",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "MwpChallenge_BoostChallengeRollbackPayload",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
             "name": "MwpChallenge_CreateWalletPayload",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "PublishPayload",
+            "name": "MwpChallenge_CreateWalletRollbackPayload",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "MwpChallenge_MarkChallengeSolvedPayload",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "MwpChallenge_MarkChallengeSolvedRollbackPayload",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "MwpChallenge_PublishPayload",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "MwpChallenge_PublishRollbackPayload",
             "ofType": null
           },
           {
@@ -1042,7 +1228,7 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "UNION",
+                    "kind": "INTERFACE",
                     "name": "Content",
                     "ofType": null
                   }
@@ -1226,17 +1412,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "AbstractPost",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -1448,7 +1630,7 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "UNION",
+                    "kind": "INTERFACE",
                     "name": "Content",
                     "ofType": null
                   }
@@ -1540,7 +1722,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "AbstractPost",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -1754,7 +1942,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "ID",
                     "ofType": null
                   }
                 }
@@ -1770,22 +1958,71 @@
         "possibleTypes": null
       },
       {
-        "kind": "UNION",
+        "kind": "INTERFACE",
         "name": "Content",
         "description": null,
-        "fields": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isActive",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "inputFields": null,
-        "interfaces": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": [
           {
             "kind": "OBJECT",
-            "name": "MarkdownContent",
+            "name": "LatexContent",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "LatexContent",
+            "name": "MarkdownContent",
             "ofType": null
           },
           {
@@ -1946,7 +2183,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Content",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2021,7 +2264,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Content",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2245,18 +2494,18 @@
             "deprecationReason": null
           },
           {
-            "name": "publishChallenge",
+            "name": "mwpChallenge_PublishChallenge",
             "description": null,
             "args": [
               {
-                "name": "input",
+                "name": "payload",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "PublishChallengeInput",
+                    "name": "MwpChallenge_PublishChallengeInput",
                     "ofType": null
                   }
                 },
@@ -2270,7 +2519,40 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "PublishPayload",
+                "name": "MwpChallenge_PublishPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_PublishChallengeRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_PublishRollbackPayload",
                 "ofType": null
               }
             },
@@ -2304,6 +2586,202 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Challenge",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_BoostChallenge",
+            "description": null,
+            "args": [
+              {
+                "name": "digest",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "MwpChallenge_BoostChallengeInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_BoostChallengePayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_BoostChallengeRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "digest",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "MwpChallenge_BoostChallengeInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_BoostChallengeRollbackPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_MarkChallengeSolved",
+            "description": null,
+            "args": [
+              {
+                "name": "digest",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "MwpChallenge_MarkChallengeSolvedInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_MarkChallengeSolvedPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_MarkChallengeSolvedRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "digest",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "MwpChallenge_MarkChallengeSolvedInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_MarkChallengeSolvedRollbackPayload",
                 "ofType": null
               }
             },
@@ -2443,11 +2921,11 @@
             "deprecationReason": null
           },
           {
-            "name": "publishChallengeEdit",
+            "name": "mwpChallenge_PublishChallengeEdit",
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "payload",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2468,7 +2946,40 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "PublishPayload",
+                "name": "MwpChallenge_PublishPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_PublishChallengeEditRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_PublishRollbackPayload",
                 "ofType": null
               }
             },
@@ -2641,11 +3152,11 @@
             "deprecationReason": null
           },
           {
-            "name": "publishSubmission",
+            "name": "mwpChallenge_PublishSubmission",
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "payload",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2666,7 +3177,40 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "PublishPayload",
+                "name": "MwpChallenge_PublishPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_PublishSubmissionRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_PublishRollbackPayload",
                 "ofType": null
               }
             },
@@ -2839,11 +3383,11 @@
             "deprecationReason": null
           },
           {
-            "name": "publishSubmissionEdit",
+            "name": "mwpChallenge_PublishSubmissionEdit",
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "payload",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2864,7 +3408,40 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "PublishPayload",
+                "name": "MwpChallenge_PublishPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_PublishSubmissionEditRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_PublishRollbackPayload",
                 "ofType": null
               }
             },
@@ -3037,11 +3614,11 @@
             "deprecationReason": null
           },
           {
-            "name": "publishReply",
+            "name": "mwpChallenge_PublishReply",
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "payload",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3062,7 +3639,40 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "PublishPayload",
+                "name": "MwpChallenge_PublishPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_PublishReplyRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_PublishRollbackPayload",
                 "ofType": null
               }
             },
@@ -3202,11 +3812,11 @@
             "deprecationReason": null
           },
           {
-            "name": "publishReplyEdit",
+            "name": "mwpChallenge_PublishReplyEdit",
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "payload",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3227,7 +3837,40 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "PublishPayload",
+                "name": "MwpChallenge_PublishPayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mwpChallenge_PublishReplyEditRollback",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MwpChallenge_PublishRollbackPayload",
                 "ofType": null
               }
             },
@@ -3358,7 +4001,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "MwpChallenge_CreateWalletPayload",
+                "name": "MwpChallenge_CreateWalletRollbackPayload",
                 "ofType": null
               }
             },
@@ -3368,6 +4011,131 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "MwpChallenge_BoostChallengeInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "challengeId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "amount",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MwpChallenge_BoostChallengePayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "challenge",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Challenge",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BasePayload",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MwpChallenge_BoostChallengeRollbackPayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BasePayload",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -3464,8 +4232,182 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "MwpChallenge_CreateWalletRollbackPayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BasePayload",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
-        "name": "PublishChallengeInput",
+        "name": "MwpChallenge_MarkChallengeSolvedInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "challengeId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "submissionId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "winnerWalletId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MwpChallenge_MarkChallengeSolvedPayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "challenge",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Challenge",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BasePayload",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MwpChallenge_MarkChallengeSolvedRollbackPayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BasePayload",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "MwpChallenge_PublishChallengeInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -3508,7 +4450,56 @@
       },
       {
         "kind": "OBJECT",
-        "name": "PublishPayload",
+        "name": "MwpChallenge_PublishPayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "publishedId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BasePayload",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MwpChallenge_PublishRollbackPayload",
         "description": null,
         "fields": [
           {
@@ -4205,7 +5196,7 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "UNION",
+                    "kind": "INTERFACE",
                     "name": "Content",
                     "ofType": null
                   }
@@ -4313,7 +5304,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "AbstractPost",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4352,7 +5349,7 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "UNION",
+                    "kind": "INTERFACE",
                     "name": "Content",
                     "ofType": null
                   }
@@ -4444,7 +5441,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "AbstractPost",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4483,7 +5486,7 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "UNION",
+                    "kind": "INTERFACE",
                     "name": "Content",
                     "ofType": null
                   }
@@ -4607,7 +5610,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "AbstractPost",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4646,7 +5655,7 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "UNION",
+                    "kind": "INTERFACE",
                     "name": "Content",
                     "ofType": null
                   }
@@ -4738,7 +5747,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "AbstractPost",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4939,7 +5954,13 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Content",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -5000,7 +6021,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Float",
+                "name": "Int",
                 "ofType": null
               }
             },

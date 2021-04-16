@@ -3,27 +3,16 @@ import { MultiWriteProxyContext } from '../context';
 
 type ServiceType = keyof MultiWriteProxyContext['services'];
 export function combineServiceResponsePayloads(
-  payloadClasses: Record<
-    ServiceType,
-    {
-      payload: ClassType;
-      objectTypeName: string;
-    }
-  >,
+  payloadClasses: Record<ServiceType, ClassType>,
   mutationName: string
 ) {
-  @ObjectType(payloadClasses.account.objectTypeName)
-  class AccountPayload extends payloadClasses.account.payload {}
-  @ObjectType(payloadClasses.challenge.objectTypeName)
-  class ChallengePayload extends payloadClasses.account.payload {}
-
   // TODO generalize this class further on
   @ObjectType(`${mutationName}Payload`)
   class CombinedPayload {
-    @Field(() => AccountPayload)
-    account!: AccountPayload;
-    @Field(() => ChallengePayload)
-    challenge!: ChallengePayload;
+    @Field(() => payloadClasses.account)
+    account!: InstanceType<typeof payloadClasses.account>;
+    @Field(() => payloadClasses.challenge)
+    challenge!: InstanceType<typeof payloadClasses.challenge>;
   }
   return CombinedPayload;
 }
