@@ -1,9 +1,11 @@
-import { GraphQLString } from 'graphql';
+import { GraphQLResolveInfo, GraphQLString } from 'graphql';
+import gql from 'graphql-tag';
 import {
   Arg,
   Authorized,
   Ctx,
   Field,
+  Info,
   Mutation,
   ObjectType,
   Query,
@@ -34,12 +36,46 @@ const CreateWalletPayload = combineServiceResponsePayloads(
 
 @Resolver(() => ProxyExample)
 export class ProxyResolver {
+  private getAccountSelectionSetFromInfo(
+    info: GraphQLResolveInfo,
+    serviceName: 'account' | 'challenge',
+    mutationName: string
+  ) {
+    const resultSelectionSet = info.operation.selectionSet.selections.find(
+      (node) =>
+        node.kind === 'Field' &&
+        node.name.kind === 'Name' &&
+        node.name.value === mutationName
+    );
+    if (resultSelectionSet?.kind !== 'Field') {
+      return null;
+    }
+    // @ts-expect-error wrong inferring
+    const serviceSelectionNode = resultSelectionSet?.selectionSet.selections.find(
+      (node) =>
+        node.kind === 'Field' &&
+        node.name.kind === 'Name' &&
+        node.name.value === serviceName
+    );
+    return serviceSelectionNode?.kind === 'Field'
+      ? serviceSelectionNode.selectionSet
+      : null;
+  }
+
   @Authorized()
   @Mutation(() => CreateWalletPayload)
   async createWallet(
     @Arg('input') input: CreateWalletInput,
     @Ctx() ctx: MultiWriteProxyContext
+    // @Info() info: GraphQLResolveInfo
   ) {
+    // console.log(
+    //   JSON.stringify(
+    //     this.getAccountSelectionSetFromInfo(info, 'account', 'createWallet'),
+    //     null,
+    //     2
+    //   )
+    // );
     const accountReponse = await ctx.services.account.createWallet(
       input.tagId,
       input.walletType,
