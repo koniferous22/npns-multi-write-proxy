@@ -2,8 +2,9 @@ import gql from 'graphql-tag';
 import { AbstractService } from './AbstractService';
 import * as GatewayApi from '../__codegen__/types';
 import { MultiWriteProxyContext } from '../context';
+import { print, SelectionSetNode } from 'graphql';
 
-type PostType =
+export type PostType =
   | 'Submission'
   | 'Reply'
   | 'ChallengeEdit'
@@ -12,62 +13,26 @@ type PostType =
 
 // NOTE legacy class because before wanted to proxy two different services instead of gateway itself
 export class ChallengeService extends AbstractService {
-  private abstractPostFieldsFragment = `
-  fragment abstractPostFields on AbstractPost {
-    id
-    isActive
-    createdAt
-    updatedAt
-    content {
-      __typename
-      id
-      isActive
-      createdAt
-      ...on MarkdownContent {
-        markdown
-      }
-      ...on LatexContent {
-        latex
-      }
-      ...on UploadedContent {
-        filename
-        mimetype
-      }
-    }
-    poster {
-      id
-      username
-      email
-      alias
-      pendingOperation
-      hasNsfwallowed
-      wallets
-    }
-  }
-`;
-
   async createWallet(
     tagId: string,
     walletId: string,
-    ctx: MultiWriteProxyContext
+    ctx: MultiWriteProxyContext,
+    selectionSet: SelectionSetNode | null | undefined
   ) {
     return this.performMutation<{
       mwpChallenge_CreateWallet: GatewayApi._MwpChallenge_CreateWalletPayload;
     }>(
       gql`
+        ${selectionSet ? `fragment userFields on MwpChallenge_CreateWalletPayload ${
+          print(selectionSet)
+        }` : ''}
         mutation createWallet(
           $payload: MwpChallenge_CreateWalletInput!
           $digest: String!
         ) {
           mwpChallenge_CreateWallet(payload: $payload, digest: $digest) {
             message
-            createdWallet {
-              score
-              tag {
-                id
-                name
-              }
-            }
+            ${selectionSet ? `...userFields` : ''}
           }
         }
       `,
@@ -100,13 +65,16 @@ export class ChallengeService extends AbstractService {
     challengeId: string,
     submissionId: string,
     winnerWalletId: string,
-    ctx: MultiWriteProxyContext
+    ctx: MultiWriteProxyContext,
+    selectionSet: SelectionSetNode | null | undefined
   ) {
     return this.performMutation<{
       mwpChallege_MarkChallengeSolved: GatewayApi._MwpChallenge_MarkChallengeSolvedPayload;
     }>(
       gql`
-        ${this.abstractPostFieldsFragment}
+        ${selectionSet ? `fragment userFields on MwpChallenge_MarkChallengeSolvedPayload ${
+          print(selectionSet)
+        }` : ''}
         mutation markChallengeSolved(
           $payload: MwpChallenge_MarkChallengeSolvedInput!
           $digest: String!
@@ -114,7 +82,6 @@ export class ChallengeService extends AbstractService {
           mwpChallenge_MarkChallengeSolved(payload: $payload, digest: $digest) {
             message
             challenge {
-              ...abstractPostFields
               tag {
                 id
                 name
@@ -177,13 +144,16 @@ export class ChallengeService extends AbstractService {
   async boostChallenge(
     challengeId: string,
     amount: number,
-    ctx: MultiWriteProxyContext
+    ctx: MultiWriteProxyContext,
+    selectionSet: SelectionSetNode | null | undefined
   ) {
     return this.performMutation<{
       mwpChallege_BoostChallenge: GatewayApi._MwpChallenge_BoostChallengePayload;
     }>(
       gql`
-        ${this.abstractPostFieldsFragment}
+        ${selectionSet ? `fragment userFields on MwpChallenge_BoostChallengePayload ${
+          print(selectionSet)
+        }` : ''}
         mutation boostChallenge(
           $payload: MwpChallenge_BoostChallengeInput!
           $digest: String!
@@ -191,7 +161,6 @@ export class ChallengeService extends AbstractService {
           mwpChallenge_BoostChallenge(payload: $payload, digest: $digest) {
             message
             challenge {
-              ...abstractPostFields
               tag {
                 id
                 name

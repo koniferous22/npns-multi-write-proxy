@@ -2,36 +2,33 @@ import gql from 'graphql-tag';
 import { AbstractService } from './AbstractService';
 import * as GatewayApi from '../__codegen__/types';
 import { MultiWriteProxyContext } from '../context';
+import { print, SelectionSetNode } from 'graphql';
 
 // NOTE legacy class because before wanted to proxy two different services instead of gateway itself
 export class AccountService extends AbstractService {
   createWallet(
     tagId: string,
     walletType: GatewayApi._WalletType,
-    ctx: MultiWriteProxyContext
+    ctx: MultiWriteProxyContext,
+    selectionSet: SelectionSetNode | null | undefined
   ) {
     return this.performMutation<{
       mwpAccount_CreateWallet: GatewayApi._MwpAccount_CreateWalletPayload;
     }>(
       gql`
+        ${selectionSet ? `fragment userFields on MwpAccount_CreateWalletPayload ${
+          print(selectionSet)
+        }` : ''}
+
         mutation createWallet(
           $payload: MwpAccount_CreateWalletInput!
           $digest: String!
         ) {
           mwpAccount_CreateWallet(payload: $payload, digest: $digest) {
-            message
             createdWallet {
               id
-              balance
-              walletType
-              user {
-                username
-                email
-                alias
-                pendingOperation
-                hasNsfwAllowed
-              }
             }
+            ${selectionSet ? `...userFields` : ''}
           }
         }
       `,
@@ -57,33 +54,21 @@ export class AccountService extends AbstractService {
       ctx
     );
   }
-  addBalance(walletId: string, amount: number, ctx: MultiWriteProxyContext) {
+  addBalance(walletId: string, amount: number, ctx: MultiWriteProxyContext, selectionSet: SelectionSetNode | null | undefined) {
     return this.performMutation<{
       mwpAccount_AddBalance: GatewayApi._MwpAccount_AddBalancePayload;
     }>(
       gql`
+        ${selectionSet ? `fragment userFields on MwpAccount_AddBalancePayload ${
+          print(selectionSet)
+        }` : ''}
+
         mutation addBalance(
           $payload: MwpAccount_AddBalanceInput!
           $digest: String!
         ) {
           mwpAccount_AddBalance(payload: $payload, digest: $digest) {
-            message
-            wallet {
-              id
-              balance
-              walletType
-              user {
-                username
-                email
-                alias
-                pendingOperation
-                hasNsfwAllowed
-              }
-            }
-            transaction {
-              transactionType
-              amount
-            }
+            ...userFields
           }
         }
       `,
@@ -112,12 +97,17 @@ export class AccountService extends AbstractService {
   createBoostTransaction(
     walletId: string,
     amount: number,
-    ctx: MultiWriteProxyContext
+    ctx: MultiWriteProxyContext,
+    selectionSet: SelectionSetNode | null
   ) {
     return this.performMutation<{
       mwpAccount_CreateBoostTransaction: GatewayApi._MwpAccount_CreateBoostTransactionPayload;
     }>(
       gql`
+        ${selectionSet ? `fragment userFields on MwpAccount_CreateBoostTransactionPayload ${
+          print(selectionSet)
+        }` : ''}
+
         mutation createBoostTransaction(
           $payload: MwpAccount_CreateBoostTransactionInput!
           $digest: String!
@@ -126,11 +116,7 @@ export class AccountService extends AbstractService {
             payload: $payload
             digest: $digest
           ) {
-            message
-            createdTransaction {
-              transactionType
-              amount
-            }
+            ...userFields
           }
         }
       `,
@@ -168,28 +154,23 @@ export class AccountService extends AbstractService {
   addActivity(
     postId: string,
     activityType: GatewayApi._ActivityType,
-    ctx: MultiWriteProxyContext
+    ctx: MultiWriteProxyContext,
+    selectionSet: SelectionSetNode | null | undefined
   ) {
     return this.performMutation<{
       mwpAccount_AddActivity: GatewayApi._MwpAccount_AddActivityPayload;
     }>(
       gql`
+        ${selectionSet ? `fragment userFields on MwpAccount_AddActivityPayload ${
+          print(selectionSet)
+        }` : ''}
+
         mutation addActivity(
           $payload: MwpAccount_AddActivityInput!
           $digest: String!
         ) {
           mwpAccount_AddActivity(payload: $payload, digest: $digest) {
-            message
-            createdActivity {
-              activityType
-              user {
-                username
-                email
-                alias
-                pendingOperation
-                hasNsfwAllowed
-              }
-            }
+            ...userFields
           }
         }
       `,

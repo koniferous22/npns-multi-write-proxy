@@ -19,7 +19,8 @@
     "plugins": [
         "@typescript-eslint",
         "prettier",
-        "import"
+        "import",
+        ""
     ],
     "rules": {
         "prettier/prettier": "warn",

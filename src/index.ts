@@ -46,7 +46,8 @@ const bootstrap = async () => {
   );
   const schema = await buildSchema({
     resolvers: [ProxyResolver],
-    authChecker
+    authChecker,
+    nullableByDefault: true
   });
 
   const server = new ApolloServer({

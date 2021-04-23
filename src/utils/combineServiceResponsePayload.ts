@@ -9,9 +9,13 @@ export function combineServiceResponsePayloads(
   // TODO generalize this class further on
   @ObjectType(`${mutationName}Payload`)
   class CombinedPayload {
-    @Field(() => payloadClasses.account)
+    @Field(() => payloadClasses.account, {
+      nullable: true
+    })
     account!: InstanceType<typeof payloadClasses.account>;
-    @Field(() => payloadClasses.challenge)
+    @Field(() => payloadClasses.challenge, {
+      nullable: true
+    })
     challenge!: InstanceType<typeof payloadClasses.challenge>;
   }
   return CombinedPayload;

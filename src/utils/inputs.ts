@@ -19,3 +19,12 @@ export class BoostChallengeInput {
   @Field(() => WalletType)
   walletType!: _WalletType;
 }
+
+@InputType()
+export class PublishChallengeInput {
+  @Field(() => ID)
+  challengeId!: string;
+
+  @Field()
+  title!: string;
+}
