@@ -1,6 +1,5 @@
 import { plainToClass } from 'class-transformer';
 import { GraphQLResolveInfo, GraphQLString, print } from 'graphql';
-import gql from 'graphql-tag';
 import {
   Arg,
   Authorized,
@@ -17,11 +16,15 @@ import { MultiWriteProxyContext } from '../context';
 import { PostType } from '../services/Challenge';
 import { combineServiceResponsePayloads } from '../utils/combineServiceResponsePayload';
 import { Await } from '../utils/generics';
-import { CreateWalletInput, PublishChallengeInput } from '../utils/inputs';
+import { BoostChallengeInput, CreateWalletInput, MarkChallengeSolvedInput, PublishChallengeInput } from '../utils/inputs';
 import {
   MwpAccount_AddActivityPayload,
+  MwpAccount_AddBalancePayload,
+  MwpAccount_CreateBoostTransactionPayload,
   MwpAccount_CreateWalletPayload,
+  MwpChallenge_BoostChallengePayload,
   MwpChallenge_CreateWalletPayload,
+  MwpChallenge_MarkChallengeSolvedPayload,
   MwpChallenge_PublishPayload
 } from '../__codegen__/type-graphql-classes';
 import { _ActivityType } from '../__codegen__/types';
@@ -38,6 +41,20 @@ const CreateWalletPayload = combineServiceResponsePayloads(
     challenge: MwpChallenge_CreateWalletPayload
   },
   'CreateWallet'
+);
+const MarkChallengeSolvedPayload = combineServiceResponsePayloads(
+  {
+    account: MwpAccount_AddBalancePayload,
+    challenge: MwpChallenge_MarkChallengeSolvedPayload
+  },
+  'MarkChallengeSolved'
+);
+const BoostChallengePayload = combineServiceResponsePayloads(
+  {
+    account: MwpAccount_CreateBoostTransactionPayload,
+    challenge: MwpChallenge_BoostChallengePayload
+  },
+  'BoostChallengePayload'
 );
 const PublishPayload = combineServiceResponsePayloads(
   {
@@ -154,6 +171,87 @@ export class ProxyResolver {
       challenge: challengeResponse.mwpChallenge_CreateWallet
     };
   }
+
+  @Authorized()
+  @Mutation(() => BoostChallengePayload)
+  async boostChallenge(
+    @Arg('input') input: BoostChallengeInput,
+    @Ctx() ctx: MultiWriteProxyContext,
+    @Info() info: GraphQLResolveInfo
+  ) {
+    const accountSelectionSet = this.getServiceSelectionSetFromInfo(info, 'account', 'createWallet');
+    const challengeSelectionSet = this.getServiceSelectionSetFromInfo(info, 'challenge', 'createWallet');
+    const accountReponse = await ctx.services.account.createBoostTransaction(
+      input.walletId,
+      input.amount,
+      ctx,
+      accountSelectionSet
+    );
+    let challengeResponse: Await<
+      ReturnType<typeof ctx['services']['challenge']['boostChallenge']>
+    >;
+    try {
+      challengeResponse = await ctx.services.challenge.boostChallenge(
+        input.challengeId,
+        input.amount,
+        ctx,
+        challengeSelectionSet
+      )
+    } catch (e) {
+      await ctx.services.account.createBoostTransactionRollback(
+        accountReponse.mwpAccount_CreateBoostTransaction.createdTransaction.id,
+        ctx
+      );
+      throw e;
+    }
+    return {
+      account: accountReponse.mwpAccount_CreateBoostTransaction,
+      challenge: challengeResponse.mwpChallege_BoostChallenge
+    };
+  }
+
+  @Authorized()
+  @Mutation(() => MarkChallengeSolvedPayload)
+  async markChallengeSolved(
+    @Arg('input') input: MarkChallengeSolvedInput,
+    @Ctx() ctx: MultiWriteProxyContext,
+    @Info() info: GraphQLResolveInfo
+  ) {
+    const accountSelectionSet = this.getServiceSelectionSetFromInfo(info, 'account', 'markChallengeSolved');
+    const challengeSelectionSet = this.getServiceSelectionSetFromInfo(info, 'challenge', 'markChallengeSolved');
+    const challengeResponse = await ctx.services.challenge.markChallengeSolved(
+      input.challengeId,
+      input.submissionId,
+      input.walletId,
+      ctx,
+      challengeSelectionSet
+    );
+    let accountResponse: Await<
+      ReturnType<typeof ctx['services']['account']['addBalance']>
+    >;
+    try {
+      accountResponse = await ctx.services.account.addBalance(
+        input.walletId,
+        input.amount,
+        ctx,
+        accountSelectionSet
+      );
+    } catch (e) {
+      await ctx.services.challenge.markChallengeSolvedRollback(
+        challengeResponse.mwpChallege_MarkChallengeSolved.challenge.id,
+        input.submissionId,
+        input.walletId,
+        ctx
+      );
+      throw e;
+    }
+    return {
+      account: accountResponse.mwpAccount_AddBalance,
+      challenge: challengeResponse.mwpChallege_MarkChallengeSolved
+    };
+  }
+
+  
 
   @Authorized()
   @Mutation(() => PublishPayload)

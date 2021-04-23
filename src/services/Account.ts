@@ -98,7 +98,7 @@ export class AccountService extends AbstractService {
     walletId: string,
     amount: number,
     ctx: MultiWriteProxyContext,
-    selectionSet: SelectionSetNode | null
+    selectionSet: SelectionSetNode | null | undefined
   ) {
     return this.performMutation<{
       mwpAccount_CreateBoostTransaction: GatewayApi._MwpAccount_CreateBoostTransactionPayload;

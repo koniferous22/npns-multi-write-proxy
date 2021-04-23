@@ -12,19 +12,37 @@ export class CreateWalletInput {
 }
 
 @InputType()
-export class BoostChallengeInput {
-  @Field(() => ID)
-  tagId!: string;
-
-  @Field(() => WalletType)
-  walletType!: _WalletType;
-}
-
-@InputType()
 export class PublishChallengeInput {
   @Field(() => ID)
   challengeId!: string;
 
   @Field()
   title!: string;
+}
+
+@InputType()
+export class MarkChallengeSolvedInput {
+  @Field(() => ID)
+  challengeId!: string;
+
+  @Field(() => ID)
+  submissionId!: string;
+
+  @Field(() => ID)
+  walletId!: string;
+
+  @Field()
+  amount!: number;
+}
+
+@InputType()
+export class BoostChallengeInput {
+  @Field(() => ID)
+  challengeId!: string;
+
+  @Field(() => ID)
+  walletId!: string;
+
+  @Field()
+  amount!: number;
 }
