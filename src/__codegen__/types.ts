@@ -44,7 +44,7 @@ export type _ActivityByUserIdInput = {
   user: Scalars['ID'];
   first: Scalars['Int'];
   afterDate?: Maybe<Scalars['DateTime']>;
-  afterId?: Maybe<Scalars['String']>;
+  afterId?: Maybe<Scalars['ID']>;
 };
 
 export type _ActivityConnection = {
@@ -205,8 +205,13 @@ export type _Challenge = _AbstractPost & {
   boost: Scalars['Float'];
   title: Scalars['String'];
   acceptedSubmission?: Maybe<_Submission>;
-  submissions: _Submission;
   edits: _ChallengeEdit;
+  submissions: _SubmissionConnectionConnection;
+};
+
+
+export type _ChallengeSubmissionsArgs = {
+  input: _ConnectionInput;
 };
 
 export type _ChallengeConnection = {
@@ -277,6 +282,12 @@ export type _ConfirmEmailResetTokenPayload = _BasePayload & {
 export type _ConfirmSignUpTokenPayload = _BasePayload & {
   __typename?: 'ConfirmSignUpTokenPayload';
   message: Scalars['String'];
+};
+
+export type _ConnectionInput = {
+  first: Scalars['Int'];
+  date?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type _Content = {
@@ -893,16 +904,16 @@ export type _Query = {
   tags: Array<_Tag>;
   challengeById: _Challenge;
   challengesByTagIds: _ChallengeConnection;
-  challengeeditById: _ChallengeEdit;
+  challengeEditById: _ChallengeEdit;
   submissionById: _Submission;
-  submissioneditById: _SubmissionEdit;
+  submissionEditById: _SubmissionEdit;
   replyById: _Reply;
-  replyeditById: _ReplyEdit;
+  replyEditById: _ReplyEdit;
 };
 
 
 export type _QueryUserByIdArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
@@ -931,12 +942,12 @@ export type _QueryValidateUpdatedPasswordWhenForgottenArgs = {
 
 
 export type _QueryWalletByIdArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type _QueryTagsArgs = {
-  root?: Maybe<Scalars['String']>;
+  root?: Maybe<Scalars['ID']>;
 };
 
 
@@ -950,7 +961,7 @@ export type _QueryChallengesByTagIdsArgs = {
 };
 
 
-export type _QueryChallengeeditByIdArgs = {
+export type _QueryChallengeEditByIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -960,7 +971,7 @@ export type _QuerySubmissionByIdArgs = {
 };
 
 
-export type _QuerySubmissioneditByIdArgs = {
+export type _QuerySubmissionEditByIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -970,7 +981,7 @@ export type _QueryReplyByIdArgs = {
 };
 
 
-export type _QueryReplyeditByIdArgs = {
+export type _QueryReplyEditByIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -1079,6 +1090,34 @@ export type _Submission = _AbstractPost & {
   edits: _SubmissionEdit;
 };
 
+
+export type _SubmissionRepliesArgs = {
+  input: _ConnectionInput;
+};
+
+export type _SubmissionConnectionConnection = {
+  __typename?: 'SubmissionConnectionConnection';
+  edges: Array<_SubmissionConnectionEdge>;
+  pageInfo: _SubmissionConnectionPageInfo;
+};
+
+export type _SubmissionConnectionEdge = {
+  __typename?: 'SubmissionConnectionEdge';
+  cursor: _SubmissionCursor;
+  node: _Submission;
+};
+
+export type _SubmissionConnectionPageInfo = {
+  __typename?: 'SubmissionConnectionPageInfo';
+  hasNextPage: Scalars['Boolean'];
+};
+
+export type _SubmissionCursor = {
+  __typename?: 'SubmissionCursor';
+  id: Scalars['ID'];
+  date: Scalars['DateTime'];
+};
+
 export type _SubmissionEdit = _AbstractPost & {
   __typename?: 'SubmissionEdit';
   id: Scalars['ID'];
@@ -1121,13 +1160,13 @@ export type _Transaction = {
 export type _TransactionByWalletIdInput = {
   first: Scalars['Int'];
   afterDate?: Maybe<Scalars['DateTime']>;
-  afterId?: Maybe<Scalars['String']>;
+  afterId?: Maybe<Scalars['ID']>;
 };
 
 export type _TransactionByWalletIdsInput = {
   first: Scalars['Int'];
   afterDate?: Maybe<Scalars['DateTime']>;
-  afterId?: Maybe<Scalars['String']>;
+  afterId?: Maybe<Scalars['ID']>;
   wallets: Array<Scalars['ID']>;
 };
 

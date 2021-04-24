@@ -12,6 +12,6 @@ generates:
       - "typescript-type-graphql"
     config:
       numericEnums: true
-  ./graphql.schema-account-service.json:
+  ./graphql.schema.json:
     plugins:
       - "introspection"
