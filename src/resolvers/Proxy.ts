@@ -68,7 +68,7 @@ const PublishPayload = combineServiceResponsePayloads(
 export class ProxyResolver {
   private getServiceSelectionSetFromInfo(
     info: GraphQLResolveInfo,
-    serviceName: 'account' | 'challenge',
+    serviceName: keyof MultiWriteProxyContext['services'],
     mutationName: string
   ) {
     const resultSelectionSet = info.operation.selectionSet.selections.find(
